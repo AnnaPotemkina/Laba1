@@ -1,0 +1,39 @@
+{% extends 'parts/base.twig' %}
+
+{% block body %}
+    {% if (user.admin == 1)%}
+    <h1>Список чеков </h1>
+    {% else %}
+    <h1>Список ваших чеков</h1>
+    {% endif %}
+    {% if message is not null %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    <div id="consumer-list">
+        {% for cheques in cheque %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Сумма чека: {{ cheques.Summ }} </h5>
+                    <p class="card-text">
+                        <b>Дата покупки:</b> {{cheques.Date_of_cheque }}
+                        <br>
+                        <b>Код купленного товара:</b> {{cheques.Code }}
+                        <br>
+                        <b>Тип купленного товара:</b> {{cheques.Type_furniture }}
+                        <br>
+                        <b>Цена за штуку:</b> {{cheques.Price }}
+                        <br>
+                        <b>Количество:</b> {{ cheques.Summ / cheques.Price }}
+                        <br>
+                        <b>Наименование организации-покупателя:</b> {{cheques.Organisation_name}}
+                        <br>
+                        <b>Контакты покупателя:</b> {{cheques.Customer_email }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

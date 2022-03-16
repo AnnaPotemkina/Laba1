@@ -1,0 +1,33 @@
+{% extends 'parts/base.twig' %}
+
+{% block body %}
+    <h1>Наши товары</h1>
+
+    {% if message is not null %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    <div>
+        <a href="/catalog/" class="btn">Основной каталог</a>
+    </div>
+    <br>
+    <div id="consumer-list">
+        {% for products in product %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ products.Type_furniture }} </h5>
+                    <p class="card-text">
+                        <b>Цена:</b> {{products.Price }}
+                        <br>
+                        <b>Код:</b> {{ products.Code }}
+                    </p>
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="/read-more-product/{{ products.Product_id }}/" class="btn">Узнать больше</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

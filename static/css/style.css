@@ -1,0 +1,23 @@
+header{
+    display: flex;
+    justify-content: space-evenly;
+    background: cadetblue;
+    height: 90px;
+    width: 100%;
+    max-width: 1500px;
+    margin-bottom: 30px;
+
+}
+.sticky {
+    position: sticky;
+    top: 0;
+}
+
+
+.nav-link {
+    color: whitesmoke;
+}
+
+a {
+    text-decoration: none;
+}

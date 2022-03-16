@@ -1,0 +1,43 @@
+{% extends 'parts/base.twig' %}
+
+{% block body %}
+    <h1>Добавление товара</h1>
+
+    {% if message is not null %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="/addproduct-post/">
+        <div class="form-group mb-3">
+            <label for="code" class="form-label">Код товара</label>
+            <input type="number" name="code" class="form-control" id="code">
+        </div>
+        <div class="form-group mb-3">
+            <label for="price" class="form-label">Цена</label>
+            <input type="number" name="price" class="form-control" id="price">
+        </div>
+        <div class="form-group mb-3">
+            <label for="available_number" class="form-label">Доступное количество</label>
+            <input type="number" name="available_number" class="form-control" id="available_number">
+        </div>
+        <p class="mb-3">Тип организации, для которой создан товар</p>
+        <select class="form-select mb-3" name="type_name" aria-label="type_name">
+            {% for type in types %}
+                <option value="{{ type.type_name }}">{{ type.type_name }}</option>
+            {% endfor %}
+        </select>
+        <div class="form-group">
+            <label for="type_furniture" class="form-label">Тип изделия</label>
+            <input type="text" name="type_furniture" class="form-control" id="type_furniture">
+        </div>
+        <p class="mb-3">Размер товара</p>
+        <select class="form-select mb-3" name="size" aria-label="size">
+            {% for Size in Sizes %}
+                <option value="{{ Size.Product_width }},{{ Size.Product_height }},{{ Size.Product_length }}">{{ Size.Product_width }} {{ Size.Product_height }} {{ Size.Product_length }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+{% endblock %}

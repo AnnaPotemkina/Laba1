@@ -1,0 +1,48 @@
+{% extends 'parts/base.twig' %}
+
+{% block body %}
+    <h1>Товар</h1>
+
+    {% if message is not null %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    <div id="consumer-list">
+        {% for products in product %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ products.Type_furniture }} </h5>
+                    <p class="card-text">
+                        <b>Цена:</b> {{products.Price }}
+                        <br>
+                        <b>Код:</b> {{ products.Code }}
+                        <br>
+                        <b>Доступное количество:</b> {{ products.Available_number }}
+                        <br>
+                        <b>Ширина:</b> {{ products.Product_width }}
+                        <br>
+                        <b>Высота:</b> {{ products.Product_height }}
+                        <br>
+                        <b>Длина:</b> {{ products.Product_length }}
+                    </p>
+                </div>
+            </div>
+            {% if ( products.Available_number != 0 and user.admin != 1 and (user is not null))%}
+            <div class="card-footer text-muted">
+                <a href="/basket-person-post/{{products.Product_id}}/" class="btn">Добавить в корзину</a>
+            </div>
+                {% else %}
+                    {% if user is not null %}
+                    <div class="card-footer text-muted">
+                        <a href="/catalog-post-delete/{{products.Product_id}}/" class="btn">Удалить</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a href="/edit-product/{{products.Product_id}}/" class="btn">Редактировать</a>
+                    </div>
+                        {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock %}

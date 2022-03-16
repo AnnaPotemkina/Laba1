@@ -1,0 +1,28 @@
+{% extends 'parts/base.twig' %}
+
+{% block body %}
+<h1>Список пользователей сайта</h1>
+
+{% if message is not null %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+{% endif %}
+<div id="consumer-list">
+    {% for customers in customer %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ customers.Organisation_name }} </h5>
+                <p class="card-text">
+                    <b>Почта:</b> {{customers.Customer_email }}
+                    <br>
+                    <b>Телефон:</b> {{ customers.Phone_number }}
+                    <br>
+                    <b>Тип организации:</b> {{ customers.Type_name }}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

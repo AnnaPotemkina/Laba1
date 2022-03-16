@@ -1,0 +1,79 @@
+{% extends 'parts/base.twig' %}
+
+{% block ajax %}
+    <script src="../static/js/jquery-3.6.0.min.js">
+    </script>
+    <script type="text/javascript">
+       $(document).ready(function () {
+           let num = 5;
+           let inProcess = false;
+           $(window).scroll(function () {
+               if ( $(window).scrollTop()+$(window).height()>=$(document).height() && !inProcess) {
+                   console.log('!');
+                   $.ajax({
+                       url: "../load.php",
+                       method: "GET",
+                       data: {"num": num},
+                       beforeSend: function () {
+                           inProcess = true;
+                       }
+                   }).done(function (data) {
+                       data = jQuery.parseJSON(data)
+                       if (data.length > 0) {
+                           $.each(data, function (index, data) {
+                               $("#consumer-list").append(
+                                   "<div class=\"card mb-3\">" +
+                                   "<div class=\"card-body\">" +
+                                   "<h5 class=\"card-title\">" + data.Type_furniture + "</h5>" +
+                                   "<p class=\"card-text\"> <b>Цена:</b>" +data.Price +
+                                   "<br> <b>Код:</b> " + data.Code + "</p>" +
+                                   "<div class=\"card-footer text-muted\">"+
+                                   "<a href=\"/read-more-product/"+ data.Product_id +"/\" class=\"btn\">Узнать больше</a></div>"
+
+                               )
+                           });
+                           inProcess = false;
+                           num += 3;
+                       }
+                   });
+               }
+           });
+           
+       });
+    </script>
+
+{% endblock %}
+
+{% block body %}
+    <h1>Наши товары</h1>
+
+    {% if message is not null %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    {% if user.admin == 0 %}
+    <div>
+    <a href="/personal-catalog/{{ user.user_id }}/" class="btn">Товары для {{ user.email }}</a>
+    </div>
+    {% endif %}
+    <br>
+    <div id="consumer-list">
+        {% for products in product %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ products.Type_furniture }} </h5>
+                    <p class="card-text">
+                        <b>Цена:</b> {{products.Price }}
+                        <br>
+                        <b>Код:</b> {{ products.Code }}
+                    </p>
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="/read-more-product/{{ products.Product_id }}/" class="btn">Узнать больше</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

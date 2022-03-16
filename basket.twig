@@ -1,0 +1,65 @@
+{% extends 'parts/base.twig' %}
+
+{% block body %}
+    <h1>Наши товары</h1>
+
+
+    {% if message is not null %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    <div id="consumer-list">
+        {% set flag = 0 %}
+        {% set flag2 = 0 %}
+        {% for products in product %}
+            {% set flag2 = 1 %}
+            {% if products.Available_number == 0 or products.Product_number > products.Available_number %}
+                {% set flag = 1 %}
+            {% endif %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ products.Type_furniture }} </h5>
+                    <p class="card-text">
+                        <b>Цена:</b> {{ products.Price }}
+                        <br>
+                        <b>Код:</b> {{ products.Code }}
+                        <br>
+                        <b>Количество:</b> {{ products.Available_number }}
+                        <br>
+                        <b>В корзине</b> {{ products.Product_number }}
+                    </p>
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="/basket-post-delete/{{ products.Basket_Product_id }}/" class="btn">Удалить из корзины</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% if flag == 0 and flag2 == 1%}
+            <form method="post" action="/basket-post/{{ user.user_id }}/">
+                <div class="form-check mb-3">
+                    <input class="form-check-input" name="block" type="checkbox"  id="block">
+                    <label class="form-check-label" for="block">
+                        Блокировка
+                    </label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" name="wait" type="checkbox" id="wait">
+                    <label class="form-check-label" for="wait">
+                        Ждать 15 секунд
+                    </label>
+                </div>
+                <div class="card-footer text-muted">
+                    <button type="submit" class="btn">Купить</button>
+                </div>
+            </form>
+        {% else %}
+            {% if flag == 1 %}
+            <h5>Удалите товары, которых нет в наличии или уменьшите количество до доступного</h5>
+                {% else %}
+                    <h5>Ваша корзина пуста</h5>
+                {% endif %}
+        {% endif %}
+    </div>
+
+{% endblock %}
